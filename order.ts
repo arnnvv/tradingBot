@@ -1,8 +1,8 @@
 import request from "request";
 import crypto from "crypto";
+import { key, secret } from "./config";
 
 const baseUrl: string = "https://api.coindcx.com";
-import { key, secret } from "./config";
 
 export const createOrder = (
   side: "buy" | "sell",
@@ -22,14 +22,14 @@ export const createOrder = (
       client_order_id: clientOrderId,
     };
 
-    const payload = new Buffer(JSON.stringify(body)).toString();
+    const payload = Buffer.from(JSON.stringify(body)).toString();
     const signature = crypto
       .createHmac("sha256", secret)
       .update(payload)
       .digest("hex");
 
     const options = {
-      url: baseurl + "/exchange/v1/orders/create",
+      url: baseUrl + "/exchange/v1/orders/create",
       headers: {
         "X-AUTH-APIKEY": key,
         "X-AUTH-SIGNATURE": signature,
@@ -38,7 +38,7 @@ export const createOrder = (
       body: body,
     };
 
-    request.post(options, function (error, response, body) {
+    request.post(options, (error, response, body) => {
       if (error) {
         console.log("error while cancelling orders");
       } else {
@@ -49,7 +49,7 @@ export const createOrder = (
   });
 };
 
-export const cancleOrder = () => {};
+export const cancelOrder = () => {};
 
 export const cancelAll = (market: string) => {
   return new Promise<void>((resolve) => {
@@ -58,14 +58,14 @@ export const cancelAll = (market: string) => {
       timestamp: Math.floor(Date.now()),
     };
 
-    const payload = new Buffer(JSON.stringify(body)).toString();
+    const payload = Buffer.from(JSON.stringify(body)).toString();
     const signature = crypto
       .createHmac("sha256", secret)
       .update(payload)
       .digest("hex");
 
     const options = {
-      url: baseurl + "/exchange/v1/orders/cancel_all",
+      url: baseUrl + "/exchange/v1/orders/cancelAll",
       headers: {
         "X-AUTH-APIKEY": key,
         "X-AUTH-SIGNATURE": signature,
@@ -78,7 +78,7 @@ export const cancelAll = (market: string) => {
       if (error) {
         console.log("error while cancelling orders");
       } else {
-        console.log("acnceleled all orders");
+        console.log("cancelled all orders");
         console.log(body);
       }
       resolve();
