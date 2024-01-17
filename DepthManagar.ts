@@ -34,7 +34,7 @@ export class Depthmanager {
     }
   }
 
-  async getRelevantDepth() {
+  getRelevantDepth() {
     try {
       let highestBid = -100;
       let lowestAsk = 10000000;
