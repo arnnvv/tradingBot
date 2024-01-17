@@ -1,4 +1,3 @@
-import axios from "axios";
 import { Depthmanager } from "./DepthManagar";
 
 const solInrMarket = new Depthmanager("B-SOL_INR");

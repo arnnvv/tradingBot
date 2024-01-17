@@ -23,6 +23,9 @@ export class Depthmanager {
     try {
       const depth = await axios.get(
         `https://public.coindcx.com/market_data/orderbook?pair=${this.market}`,
+        {
+          headers: { "Accept-Encoding": "gzip, deflate" },
+        },
       );
       this.bids = depth.data.bids;
       this.asks = depth.data.asks;
